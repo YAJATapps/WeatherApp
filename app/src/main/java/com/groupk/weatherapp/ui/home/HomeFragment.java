@@ -15,9 +15,6 @@ import com.groupk.weatherapp.R;
 
 public class HomeFragment extends Fragment {
 
-    WeatherPagerAdapter weatherPagerAdapter;
-    ViewPager viewPager;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -28,8 +25,8 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        weatherPagerAdapter = new WeatherPagerAdapter(getChildFragmentManager());
-        viewPager = view.findViewById(R.id.pager);
+        WeatherPagerAdapter weatherPagerAdapter = new WeatherPagerAdapter(getChildFragmentManager());
+        ViewPager viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(weatherPagerAdapter);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
