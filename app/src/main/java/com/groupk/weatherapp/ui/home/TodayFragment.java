@@ -5,13 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.groupk.weatherapp.R;
+import com.groupk.weatherapp.util.APIKey;
+import com.groupk.weatherapp.util.SharedPrefs;
+import com.kwabenaberko.openweathermaplib.constants.Units;
+import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper;
+import com.kwabenaberko.openweathermaplib.implementation.callbacks.CurrentWeatherCallback;
+import com.kwabenaberko.openweathermaplib.models.currentweather.CurrentWeather;
 
+// Created by Yajat
 public class TodayFragment extends Fragment {
 
     @Override
@@ -23,15 +31,41 @@ public class TodayFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         TextView city = view.findViewById(R.id.city_name);
-        city.setText("Kamloops");
-
         TextView weather = view.findViewById(R.id.weather);
-        weather.setText("Snow");
-
         TextView temperature = view.findViewById(R.id.temperature);
-        temperature.setText("-23 \u00B0C");
-
         TextView wind = view.findViewById(R.id.wind);
-        wind.setText("20 KM/H");
+
+        // Load from shared prefs in starting to avoid 2-3 seconds delay in fetching live data.
+        city.setText(SharedPrefs.getPrefs(getContext()).getString("city", "Kamloops/CA"));
+        weather.setText(SharedPrefs.getPrefs(getContext()).getString("weather", "Snow"));
+        temperature.setText(SharedPrefs.getPrefs(getContext()).getString("temperature", "-23 \u00B0C"));
+        wind.setText(SharedPrefs.getPrefs(getContext()).getString("wind", "20 KM/H"));
+
+        OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getKEY());
+        helper.setUnits(Units.METRIC);
+        helper.getCurrentWeatherByCityName("Kamloops", new CurrentWeatherCallback() {
+            @Override
+            public void onSuccess(CurrentWeather currentWeather) {
+                String weatherText = currentWeather.getWeather().get(0).getDescription();
+                String temperatureText = currentWeather.getMain().getTempMax() + " \u00B0C";
+                String windText = currentWeather.getWind().getSpeed() + " KM/H";
+
+                city.setText(currentWeather.getName() + ", " + currentWeather.getSys().getCountry());
+                weather.setText(weatherText);
+                temperature.setText(temperatureText);
+                wind.setText(windText);
+
+                // Store in shared prefs for cache.
+                SharedPrefs.getPrefs(getContext()).edit().putString("weather", weatherText).apply();
+                SharedPrefs.getPrefs(getContext()).edit().putString("temperature", temperatureText).apply();
+                SharedPrefs.getPrefs(getContext()).edit().putString("wind", windText).apply();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                // Error toast.
+                Toast.makeText(getContext(), getResources().getString(R.string.weather_error), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

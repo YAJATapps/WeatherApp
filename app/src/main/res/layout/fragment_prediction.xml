@@ -12,85 +12,61 @@
         android:padding="4dp"
         android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/weather_monday"
+        app:layout_constraintBottom_toTopOf="@id/weather_day1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/weather_monday"
+        android:id="@+id/weather_day1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/weather_tuesday"
+        app:layout_constraintBottom_toTopOf="@id/weather_day2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/city_name" />
 
     <TextView
-        android:id="@+id/weather_tuesday"
+        android:id="@+id/weather_day2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/weather_wednesday"
+        app:layout_constraintBottom_toTopOf="@id/weather_day3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_monday" />
+        app:layout_constraintTop_toBottomOf="@id/weather_day1" />
 
     <TextView
-        android:id="@+id/weather_wednesday"
+        android:id="@+id/weather_day3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/weather_thursday"
+        app:layout_constraintBottom_toTopOf="@id/weather_day4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_tuesday" />
+        app:layout_constraintTop_toBottomOf="@id/weather_day2" />
 
     <TextView
-        android:id="@+id/weather_thursday"
+        android:id="@+id/weather_day4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/weather_friday"
+        app:layout_constraintBottom_toTopOf="@id/weather_day5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_wednesday" />
+        app:layout_constraintTop_toBottomOf="@id/weather_day3" />
 
     <TextView
-        android:id="@+id/weather_friday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="4dp"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/weather_saturday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_thursday" />
-
-    <TextView
-        android:id="@+id/weather_saturday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="4dp"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toTopOf="@id/weather_sunday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_friday" />
-
-    <TextView
-        android:id="@+id/weather_sunday"
+        android:id="@+id/weather_day5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -99,6 +75,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weather_saturday" />
+        app:layout_constraintTop_toBottomOf="@id/weather_day4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
