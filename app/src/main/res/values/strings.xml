@@ -11,4 +11,5 @@
     <string name="menu_news">News</string>
     <string name="menu_alerts">Alerts</string>
     <string name="weather_error">Failed to load weather. Check connection and press refresh.</string>
+    <string name="no_alerts">No alerts are available at this time.</string>
 </resources>
