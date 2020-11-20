@@ -1,9 +1,11 @@
 package com.groupk.weatherapp.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,26 @@ public class TodayFragment extends Fragment {
         TextView temperature = view.findViewById(R.id.temperature);
         TextView wind = view.findViewById(R.id.wind);
 
+        //get unit setting
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        String unit = "C";
+        if(radioGroup != null) {
+            Log.v("TodayFragment", "Unit=" + unit);
+            switch (radioGroup.getCheckedRadioButtonId()) {
+                case R.id.radio_Cel:
+                    unit = "C";
+                    break;
+                case R.id.radio_Fah:
+                    unit = "F";
+                    break;
+                case R.id.radio_Kel:
+                    unit = "K";
+                    break;
+            }
+        }
+        String finalUnit = unit;
+        Log.v("TodayFragment", "unit="+unit);
+
         // Load from shared prefs in starting to avoid 2-3 seconds delay in fetching live data.
         city.setText(SharedPrefs.getPrefs(getContext()).getString("city", "Kamloops/CA"));
         weather.setText(SharedPrefs.getPrefs(getContext()).getString("weather", "Snow"));
@@ -46,8 +68,9 @@ public class TodayFragment extends Fragment {
         helper.getCurrentWeatherByCityName("Kamloops", new CurrentWeatherCallback() {
             @Override
             public void onSuccess(CurrentWeather currentWeather) {
+
                 String weatherText = currentWeather.getWeather().get(0).getDescription();
-                String temperatureText = currentWeather.getMain().getTempMax() + " \u00B0C";
+                String temperatureText = currentWeather.getMain().getTempMax() + " \u00B0" + finalUnit;//unit changed to variable
                 String windText = currentWeather.getWind().getSpeed() + " KM/H";
 
                 city.setText(currentWeather.getName() + ", " + currentWeather.getSys().getCountry());
