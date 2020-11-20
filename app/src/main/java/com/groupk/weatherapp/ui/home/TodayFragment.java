@@ -1,5 +1,7 @@
 package com.groupk.weatherapp.ui.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.groupk.weatherapp.R;
+import com.groupk.weatherapp.Setting;
 import com.groupk.weatherapp.util.APIKey;
 import com.groupk.weatherapp.util.SharedPrefs;
 import com.kwabenaberko.openweathermaplib.constants.Units;
@@ -23,39 +26,23 @@ import com.kwabenaberko.openweathermaplib.models.currentweather.CurrentWeather;
 
 // Created by Yajat
 public class TodayFragment extends Fragment {
+    String unit;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.v("TodayFragment", "onCreateView()");
+        unit = getContext().getSharedPreferences("com.groupk.weatherapp.config", Context.MODE_PRIVATE).getString("Unit", "C");
         return inflater.inflate(R.layout.fragment_today, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.v("TodayFragment", "onViewCreated()");
         TextView city = view.findViewById(R.id.city_name);
         TextView weather = view.findViewById(R.id.weather);
         TextView temperature = view.findViewById(R.id.temperature);
         TextView wind = view.findViewById(R.id.wind);
-
-        //get unit setting
-        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
-        String unit = "C";
-        if(radioGroup != null) {
-            Log.v("TodayFragment", "Unit=" + unit);
-            switch (radioGroup.getCheckedRadioButtonId()) {
-                case R.id.radio_Cel:
-                    unit = "C";
-                    break;
-                case R.id.radio_Fah:
-                    unit = "F";
-                    break;
-                case R.id.radio_Kel:
-                    unit = "K";
-                    break;
-            }
-        }
-        String finalUnit = unit;
-        Log.v("TodayFragment", "unit="+unit);
 
         // Load from shared prefs in starting to avoid 2-3 seconds delay in fetching live data.
         city.setText(SharedPrefs.getPrefs(getContext()).getString("city", "Kamloops/CA"));
@@ -64,13 +51,25 @@ public class TodayFragment extends Fragment {
         wind.setText(SharedPrefs.getPrefs(getContext()).getString("wind", "20 KM/H"));
 
         OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getKEY());
-        helper.setUnits(Units.METRIC);
+
+        //convert temperature value
+        switch(unit){
+            case " \u00B0C":
+                helper.setUnits(Units.METRIC);
+                break;
+            case " \u00B0F":
+                helper.setUnits(Units.IMPERIAL);
+                break;
+            case " K":
+                break;
+        }
+
         helper.getCurrentWeatherByCityName("Kamloops", new CurrentWeatherCallback() {
             @Override
             public void onSuccess(CurrentWeather currentWeather) {
 
                 String weatherText = currentWeather.getWeather().get(0).getDescription();
-                String temperatureText = currentWeather.getMain().getTempMax() + " \u00B0" + finalUnit;//unit changed to variable
+                String temperatureText = currentWeather.getMain().getTempMax() + unit;//unit changed to variable
                 String windText = currentWeather.getWind().getSpeed() + " KM/H";
 
                 city.setText(currentWeather.getName() + ", " + currentWeather.getSys().getCountry());
@@ -90,5 +89,12 @@ public class TodayFragment extends Fragment {
                 Toast.makeText(getContext(), getResources().getString(R.string.weather_error), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
     }
 }

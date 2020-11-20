@@ -1,5 +1,6 @@
 package com.groupk.weatherapp.ui.home;
 
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,10 +23,12 @@ import com.kwabenaberko.openweathermaplib.models.threehourforecast.ThreeHourFore
 
 // Created by Yajat
 public class PredictionFragment extends Fragment {
+    String unit;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        unit = getContext().getSharedPreferences("com.groupk.weatherapp.config", Context.MODE_PRIVATE).getString("Unit", "\u00B0C");
         return inflater.inflate(R.layout.fragment_prediction, container, false);
     }
 
@@ -50,7 +53,19 @@ public class PredictionFragment extends Fragment {
         day5.setText(SharedPrefs.getPrefs(getContext()).getString("prediction4", "Fri  " + "-8\u00B0C"));
 
         OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getKEY());
-        helper.setUnits(Units.METRIC);
+
+        //convert temperature value
+        switch(unit){
+            case " \u00B0C":
+                helper.setUnits(Units.METRIC);
+                break;
+            case " \u00B0F":
+                helper.setUnits(Units.IMPERIAL);
+                break;
+            case " K":
+                break;
+        }
+
         helper.getThreeHourForecastByCityName("Kamloops", new ThreeHourForecastCallback() {
             @Override
             public void onSuccess(ThreeHourForecast threeHourForecast) {
@@ -63,7 +78,7 @@ public class PredictionFragment extends Fragment {
                 TextView[] days = {day1, day2, day3, day4, day5};
                 for (int i = 0; i < threeHourForecast.getCnt(); i += 8) {
                     // The text for the current day prediction.
-                    String text = getDay(i / 8) + threeHourForecast.getList().get(i).getMain().getTempMax() + " \u00B0C";
+                    String text = getDay(i / 8) + threeHourForecast.getList().get(i).getMain().getTempMax() + unit;
 
                     // Store in shared prefs for cache.
                     SharedPrefs.getPrefs(getContext()).edit().putString("prediction" + i / 8, text).apply();
