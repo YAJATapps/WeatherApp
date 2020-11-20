@@ -27,6 +27,7 @@ import com.kwabenaberko.openweathermaplib.models.currentweather.CurrentWeather;
 // Created by Yajat
 public class TodayFragment extends Fragment {
     String unit;
+    String cityName;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -64,7 +65,11 @@ public class TodayFragment extends Fragment {
                 break;
         }
 
-        helper.getCurrentWeatherByCityName("Kamloops", new CurrentWeatherCallback() {
+        //get city name
+        cityName = getContext().getSharedPreferences("com.groupk.weatherapp.config", Context.MODE_PRIVATE).getString("CityName", "Kamloops");
+        Log.v("TodayFragment", cityName);
+
+        helper.getCurrentWeatherByCityName(cityName, new CurrentWeatherCallback() {
             @Override
             public void onSuccess(CurrentWeather currentWeather) {
 

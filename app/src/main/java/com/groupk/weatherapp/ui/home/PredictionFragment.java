@@ -24,6 +24,7 @@ import com.kwabenaberko.openweathermaplib.models.threehourforecast.ThreeHourFore
 // Created by Yajat
 public class PredictionFragment extends Fragment {
     String unit;
+    String cityName;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -65,8 +66,10 @@ public class PredictionFragment extends Fragment {
             case " K":
                 break;
         }
+        //get city name
+        cityName = getContext().getSharedPreferences("com.groupk.weatherapp.config", Context.MODE_PRIVATE).getString("CityName", "Kamloops");
 
-        helper.getThreeHourForecastByCityName("Kamloops", new ThreeHourForecastCallback() {
+        helper.getThreeHourForecastByCityName(cityName, new ThreeHourForecastCallback() {
             @Override
             public void onSuccess(ThreeHourForecast threeHourForecast) {
                 String cityText = threeHourForecast.getCity().getName() + ", " + threeHourForecast.getCity().getCountry();

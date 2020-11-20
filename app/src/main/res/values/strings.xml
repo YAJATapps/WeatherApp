@@ -12,4 +12,32 @@
     <string name="menu_alerts">Alerts</string>
     <string name="weather_error">Failed to load weather. Check connection and press refresh.</string>
     <string name="no_alerts">No alerts are available at this time.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="group1">British Columbia</string>
+    <string name="group2">Ontario</string>
+    <string name="group3">Alberta</string>
+    <string name="group4">Manitoba</string>
+    <string name="group5">Quebec</string>
+
+    <string-array name="group1">
+        <item>Kamloops</item>
+    </string-array>
+
+    <string-array name="group2">
+        <item>Toronto</item>
+    </string-array>
+
+    <string-array name="group3">
+        <item>Edmonton</item>
+    </string-array>
+
+    <string-array name="group4">
+        <item>Winnipeg</item>
+    </string-array>
+
+    <string-array name="group5">
+        <item>Quebec City</item>
+    </string-array>
 </resources>
