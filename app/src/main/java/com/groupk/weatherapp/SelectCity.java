@@ -1,6 +1,5 @@
 package com.groupk.weatherapp;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,15 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 
-import java.lang.reflect.Array;
+import com.groupk.weatherapp.util.SharedPrefs;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Select_City extends Fragment {
+public class SelectCity extends Fragment {
     ExpandableListView expandableListView;
     List<String> listGroup;
     HashMap<String, List<String>> listItem;
@@ -38,23 +37,20 @@ public class Select_City extends Fragment {
         expandableListView = v.findViewById(R.id.select_city);
         listGroup = new ArrayList<>();
         listItem = new HashMap<>();
-        adapter = new CityAdapter(this.getContext(), listGroup,listItem);//first para temp
+        adapter = new CityAdapter(this.getContext(), listGroup, listItem);//first para temp
         expandableListView.setAdapter(adapter);
         initListData();
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Log.v("Select_City", "Group="+groupPosition+","+"Child="+childPosition);
-                Save("CityName", groupPosition, childPosition);
-                return true;
-            }
+        expandableListView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
+            Log.v("Select_City", "Group=" + groupPosition + "," + "Child=" + childPosition);
+            Save("CityName", groupPosition, childPosition);
+            return true;
         });
 
         return v;
     }
 
-    public void initListData(){
+    public void initListData() {
         listGroup.add(getString(R.string.group1));
         listGroup.add(getString(R.string.group2));
         listGroup.add(getString(R.string.group3));
@@ -65,31 +61,31 @@ public class Select_City extends Fragment {
 
         List<String> list1 = new ArrayList<>();
         array = getResources().getStringArray(R.array.group1);
-        for(String item:array){
+        for (String item : array) {
             list1.add(item);
         }
 
         List<String> list2 = new ArrayList<>();
         array = getResources().getStringArray(R.array.group2);
-        for(String item:array){
+        for (String item : array) {
             list2.add(item);
         }
 
         List<String> list3 = new ArrayList<>();
         array = getResources().getStringArray(R.array.group3);
-        for(String item:array){
+        for (String item : array) {
             list3.add(item);
         }
 
         List<String> list4 = new ArrayList<>();
         array = getResources().getStringArray(R.array.group4);
-        for(String item:array){
+        for (String item : array) {
             list4.add(item);
         }
 
         List<String> list5 = new ArrayList<>();
         array = getResources().getStringArray(R.array.group5);
-        for(String item:array){
+        for (String item : array) {
             list5.add(item);
         }
 
@@ -100,28 +96,30 @@ public class Select_City extends Fragment {
         listItem.put(listGroup.get(4), list5);
         adapter.notifyDataSetChanged();
     }
-    public String convertToCity(int group, int child){
-        if(group == 0 && child == 0)
+
+    public String convertToCity(int group, int child) {
+        if (group == 0 && child == 0)
             return "Kamloops";
-        else if(group == 1 && child == 0)
+        else if (group == 1 && child == 0)
             return "Toronto";
-        else if(group == 2 && child == 0)
+        else if (group == 2 && child == 0)
             return "Edmonton";
-        else if(group == 3 && child == 0)
+        else if (group == 3 && child == 0)
             return "Winnipeg";
-        else if(group == 4 && child == 0)
+        else if (group == 4 && child == 0)
             return "Quebec";
-        else if(group == 5 && child == 0){
+        else if (group == 5 && child == 0) {
             Log.v("TodayFragment", "5");
             return "Ottawa";
         }
         return "Kamloops";
     }
+
     public void Save(String key1, int i1, int i2) {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("com.groupk.weatherapp.config", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = SharedPrefs.getPrefs(getContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        convertToCity(i1,i2);
-        editor.putString(key1, convertToCity(i1,i2));
+        convertToCity(i1, i2);
+        editor.putString(key1, convertToCity(i1, i2));
         editor.apply();
     }
 }

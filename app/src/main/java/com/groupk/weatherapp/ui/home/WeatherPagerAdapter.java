@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.groupk.weatherapp.Select_City;
+import com.groupk.weatherapp.SelectCity;
 
 public class WeatherPagerAdapter extends FragmentStatePagerAdapter {
     public WeatherPagerAdapter(FragmentManager fm) {
@@ -19,7 +19,7 @@ public class WeatherPagerAdapter extends FragmentStatePagerAdapter {
             case(1):
                 return new PredictionFragment();
             case(2):
-                return new Select_City();
+                return new SelectCity();
         }
         return new TodayFragment();
         //return (i == 0) ? new TodayFragment() : new PredictionFragment();

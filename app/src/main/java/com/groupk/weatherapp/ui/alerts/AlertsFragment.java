@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.groupk.weatherapp.R;
 import com.groupk.weatherapp.util.APIKey;
+import com.groupk.weatherapp.util.SharedPrefs;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,7 +32,8 @@ public class AlertsFragment extends Fragment {
         textView.setText(R.string.no_alerts);
 
         new Thread(() -> {
-            String urlString = "https://api.openweathermap.org/data/2.5/weather?q=Kamloops" + "&appid=" + APIKey.getKEY() + "&units =metric";
+            String cityName = SharedPrefs.getPrefs(getContext()).getString("CityName", "Kamloops");
+            String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey.getKEY() + "&units =metric";
             try {
                 StringBuilder result = new StringBuilder();
                 URL url = new URL(urlString);

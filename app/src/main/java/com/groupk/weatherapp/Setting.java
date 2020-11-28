@@ -1,51 +1,59 @@
 package com.groupk.weatherapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.groupk.weatherapp.ui.home.TodayFragment;
+import com.groupk.weatherapp.util.SharedPrefs;
 
 public class Setting extends AppCompatActivity {
-    String unit = "C";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Set the current selected radio option to be selected
+        String unit = SharedPrefs.getPrefs(this).getString("Unit", "C");
+        int id = -1;
+        switch (unit) {
+            case "C":
+                id = R.id.radio_Cel;
+                break;
+            case "F":
+                id = R.id.radio_Fah;
+                break;
+            case "K":
+                id = R.id.radio_Kel;
+                break;
+        }
+        if (id != -1)
+            ((RadioGroup) findViewById(R.id.radioGroup)).check(id);
     }
 
-    public void setUnit(View view){
-        switch(view.getId()) {
+    public void setUnit(View view) {
+        String unit = "C";
+        switch (view.getId()) {
             case R.id.radio_Cel:
-                unit = " \u00B0C";
-                Log.v("setting", "C checked");
+                unit = "C";
                 break;
             case R.id.radio_Fah:
-                unit = " \u00B0F";
-                Log.v("setting", "F checked");
+                unit = "F";
                 break;
             case R.id.radio_Kel:
-                unit = " K";
-                Log.v("setting", "K checked");
+                unit = "K";
                 break;
         }
         Save("Unit", unit);//save to sharedPreference
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
     public void Save(String key, String s) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.groupk.weatherapp.config",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = SharedPrefs.getPrefs(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, s);
         editor.apply();
