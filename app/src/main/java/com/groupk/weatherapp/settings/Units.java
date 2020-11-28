@@ -1,16 +1,16 @@
-package com.groupk.weatherapp;
+package com.groupk.weatherapp.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.groupk.weatherapp.R;
 import com.groupk.weatherapp.util.SharedPrefs;
 
-public class Setting extends AppCompatActivity {
+public class Units extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

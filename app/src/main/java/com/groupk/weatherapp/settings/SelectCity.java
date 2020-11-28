@@ -1,53 +1,45 @@
-package com.groupk.weatherapp;
+package com.groupk.weatherapp.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.groupk.weatherapp.R;
+import com.groupk.weatherapp.util.CityAdapter;
 import com.groupk.weatherapp.util.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SelectCity extends Fragment {
+public class SelectCity extends AppCompatActivity {
+
     ExpandableListView expandableListView;
     List<String> listGroup;
     HashMap<String, List<String>> listItem;
     CityAdapter adapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_select_city);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_select__city, container, false);
-
-        expandableListView = v.findViewById(R.id.select_city);
+        expandableListView = findViewById(R.id.select_city);
         listGroup = new ArrayList<>();
         listItem = new HashMap<>();
-        adapter = new CityAdapter(this.getContext(), listGroup, listItem);//first para temp
+        adapter = new CityAdapter(this, listGroup, listItem);//first para temp
         expandableListView.setAdapter(adapter);
         initListData();
 
         expandableListView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
-            Log.v("Select_City", "Group=" + groupPosition + "," + "Child=" + childPosition);
             Save("CityName", groupPosition, childPosition);
+            finish();
             return true;
         });
 
-        return v;
     }
 
     public void initListData() {
@@ -109,14 +101,13 @@ public class SelectCity extends Fragment {
         else if (group == 4 && child == 0)
             return "Quebec";
         else if (group == 5 && child == 0) {
-            Log.v("TodayFragment", "5");
             return "Ottawa";
         }
         return "Kamloops";
     }
 
     public void Save(String key1, int i1, int i2) {
-        SharedPreferences sharedPreferences = SharedPrefs.getPrefs(getContext());
+        SharedPreferences sharedPreferences = SharedPrefs.getPrefs(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         convertToCity(i1, i2);
         editor.putString(key1, convertToCity(i1, i2));

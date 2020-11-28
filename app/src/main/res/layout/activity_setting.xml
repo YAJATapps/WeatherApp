@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Setting">
+    tools:context=".settings.Units">
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -18,7 +18,7 @@
         <RadioButton
             android:id="@+id/radio_Cel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="setUnit"
             android:text="Celsius" />
@@ -26,7 +26,7 @@
         <RadioButton
             android:id="@+id/radio_Fah"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="setUnit"
             android:text="Fahrenheit" />
@@ -34,7 +34,7 @@
         <RadioButton
             android:id="@+id/radio_Kel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="setUnit"
             android:text="Kelvin" />

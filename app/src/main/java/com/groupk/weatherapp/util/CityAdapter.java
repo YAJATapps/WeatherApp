@@ -1,17 +1,16 @@
-package com.groupk.weatherapp;
+package com.groupk.weatherapp.util;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CalendarView;
 import android.widget.TextView;
+
+import com.groupk.weatherapp.R;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.function.LongToIntFunction;
 
 public class CityAdapter extends BaseExpandableListAdapter {
     Context context;
