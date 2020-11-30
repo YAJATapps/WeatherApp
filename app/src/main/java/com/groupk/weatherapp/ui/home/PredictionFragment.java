@@ -1,5 +1,6 @@
 package com.groupk.weatherapp.ui.home;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -35,12 +36,14 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SharedPrefs.getPrefs(getContext()).unregisterOnSharedPreferenceChangeListener(this);
+        if (getContext() != null)
+            SharedPrefs.getPrefs(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        SharedPrefs.getPrefs(view.getContext()).registerOnSharedPreferenceChangeListener(this);
+        Context context = view.getContext();
+        SharedPrefs.getPrefs(context).registerOnSharedPreferenceChangeListener(this);
 
         // TextView for current city.
         city = view.findViewById(R.id.city_name);
@@ -53,18 +56,18 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
         day5 = view.findViewById(R.id.weather_day5);
 
         // Load from shared prefs in starting to avoid 2-3 seconds delay in fetching live data.
-        city.setText(SharedPrefs.getPrefs(getContext()).getString("city", "Kamloops, CA"));
-        day1.setText(SharedPrefs.getPrefs(getContext()).getString("prediction0", "Mon  " + "-15\u00B0C"));
-        day2.setText(SharedPrefs.getPrefs(getContext()).getString("prediction1", "Tue  " + "-5\u00B0C"));
-        day3.setText(SharedPrefs.getPrefs(getContext()).getString("prediction2", "Wed  " + "-4\u00B0C"));
-        day4.setText(SharedPrefs.getPrefs(getContext()).getString("prediction3", "Thur  " + "-2\u00B0C"));
-        day5.setText(SharedPrefs.getPrefs(getContext()).getString("prediction4", "Fri  " + "-8\u00B0C"));
+        city.setText(SharedPrefs.getPrefs(context).getString("city", "Kamloops, CA"));
+        day1.setText(SharedPrefs.getPrefs(context).getString("prediction0", "Mon  " + "-15\u00B0C"));
+        day2.setText(SharedPrefs.getPrefs(context).getString("prediction1", "Tue  " + "-5\u00B0C"));
+        day3.setText(SharedPrefs.getPrefs(context).getString("prediction2", "Wed  " + "-4\u00B0C"));
+        day4.setText(SharedPrefs.getPrefs(context).getString("prediction3", "Thur  " + "-2\u00B0C"));
+        day5.setText(SharedPrefs.getPrefs(context).getString("prediction4", "Fri  " + "-8\u00B0C"));
 
         loadWeather();
     }
 
     private void loadWeather() {
-        if (city == null || day1 == null || day2 == null || day3 == null || day4 == null || day5 == null)
+        if (city == null || day1 == null || day2 == null || day3 == null || day4 == null || day5 == null || getContext() == null)
             return;
 
         // Get city name

@@ -1,5 +1,6 @@
 package com.groupk.weatherapp.ui.home;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,12 +35,14 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        SharedPrefs.getPrefs(getContext()).unregisterOnSharedPreferenceChangeListener(this);
+        if (getContext() != null)
+            SharedPrefs.getPrefs(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        SharedPrefs.getPrefs(view.getContext()).registerOnSharedPreferenceChangeListener(this);
+        Context context = view.getContext();
+        SharedPrefs.getPrefs(context).registerOnSharedPreferenceChangeListener(this);
 
         city = view.findViewById(R.id.city_name);
         weather = view.findViewById(R.id.weather);
@@ -47,16 +50,16 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
         wind = view.findViewById(R.id.wind);
 
         // Load from shared prefs in starting to avoid 2-3 seconds delay in fetching live data.
-        city.setText(SharedPrefs.getPrefs(getContext()).getString("city", "Kamloops/CA"));
-        weather.setText(SharedPrefs.getPrefs(getContext()).getString("weather", "Snow"));
-        temperature.setText(SharedPrefs.getPrefs(getContext()).getString("temperature", "-23 \u00B0C"));
-        wind.setText(SharedPrefs.getPrefs(getContext()).getString("wind", "20 KM/H"));
+        city.setText(SharedPrefs.getPrefs(context).getString("city", "Kamloops/CA"));
+        weather.setText(SharedPrefs.getPrefs(context).getString("weather", "Snow"));
+        temperature.setText(SharedPrefs.getPrefs(context).getString("temperature", "-23 \u00B0C"));
+        wind.setText(SharedPrefs.getPrefs(context).getString("wind", "20 KM/H"));
 
         loadWeather();
     }
 
     private void loadWeather() {
-        if (city == null || weather == null || temperature == null || wind == null)
+        if (city == null || weather == null || temperature == null || wind == null || getContext() == null)
             return;
 
         // Get city name
