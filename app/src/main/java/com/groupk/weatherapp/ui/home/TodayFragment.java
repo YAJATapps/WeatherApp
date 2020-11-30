@@ -118,6 +118,9 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
     }
 
     private void loadWeatherIcon() {
+        if (getContext() == null)
+            return;
+        
         if (weather != null) {
             String weatherText = weather.getText().toString().toLowerCase();
             int iconId = -1;

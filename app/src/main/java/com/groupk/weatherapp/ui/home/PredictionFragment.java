@@ -157,7 +157,9 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
     }
 
     private void loadWeatherIcon(String weatherText, TextView weather) {
-        if (weather != null) {
+        if (getContext() == null)
+            return;
+        if (weather != null && weatherText != null) {
             int iconId = -1;
             if (weatherText.contains("rain")) {
                 iconId = R.mipmap.rainy;
