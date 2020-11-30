@@ -25,7 +25,8 @@ public class SelectCity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_city);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         expandableListView = findViewById(R.id.select_city);
         listGroup = new ArrayList<>();
@@ -48,6 +49,7 @@ public class SelectCity extends AppCompatActivity {
         listGroup.add(getString(R.string.group3));
         listGroup.add(getString(R.string.group4));
         listGroup.add(getString(R.string.group5));
+        listGroup.add(getString(R.string.group6));
 
         String[] array;
 
@@ -81,27 +83,43 @@ public class SelectCity extends AppCompatActivity {
             list5.add(item);
         }
 
+        List<String> list6 = new ArrayList<>();
+        array = getResources().getStringArray(R.array.group6);
+        for (String item : array) {
+            list6.add(item);
+        }
+
         listItem.put(listGroup.get(0), list1);
         listItem.put(listGroup.get(1), list2);
         listItem.put(listGroup.get(2), list3);
         listItem.put(listGroup.get(3), list4);
         listItem.put(listGroup.get(4), list5);
+        listItem.put(listGroup.get(5), list6);
         adapter.notifyDataSetChanged();
     }
 
     public String convertToCity(int group, int child) {
-        if (group == 0 && child == 0)
-            return "Kamloops";
-        else if (group == 1 && child == 0)
-            return "Toronto";
-        else if (group == 2 && child == 0)
-            return "Edmonton";
+        if (group == 0)
+            return child == 0 ? "Kamloops" : "Vancouver";
+        else if (group == 1) {
+            if (child == 0)
+                return "Kitchener";
+            else if (child == 1)
+                return "Mississauga";
+            else if (child == 2)
+                return "Ottawa";
+            else if (child == 3)
+                return "Toronto";
+            else
+                return "Windsor";
+        } else if (group == 2)
+            return child == 0 ? "Calgary" : "Edmonton";
         else if (group == 3 && child == 0)
             return "Winnipeg";
         else if (group == 4 && child == 0)
             return "Quebec";
-        else if (group == 5 && child == 0) {
-            return "Ottawa";
+        else if (group == 5) {
+            return child == 0 ? "Regina" : "Saskatoon";
         }
         return "Kamloops";
     }

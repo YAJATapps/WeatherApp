@@ -20,16 +20,23 @@
     <string name="group3">Alberta</string>
     <string name="group4">Manitoba</string>
     <string name="group5">Quebec</string>
+    <string name="group6">Saskatchewan</string>
 
     <string-array name="group1">
         <item>Kamloops</item>
+        <item>Vancouver</item>
     </string-array>
 
     <string-array name="group2">
+        <item>Kitchener</item>
+        <item>Mississauga</item>
+        <item>Ottawa</item>
         <item>Toronto</item>
+        <item>Windsor</item>
     </string-array>
 
     <string-array name="group3">
+        <item>Calgary</item>
         <item>Edmonton</item>
     </string-array>
 
@@ -41,6 +48,10 @@
         <item>Quebec City</item>
     </string-array>
 
+    <string-array name="group6">
+        <item>Regina</item>
+        <item>Saskatoon</item>
+    </string-array>
 
     <string name="units">Units</string>
     <string name="select_city">Select City</string>
