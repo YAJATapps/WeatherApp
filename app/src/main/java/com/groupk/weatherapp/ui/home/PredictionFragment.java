@@ -2,6 +2,7 @@ package com.groupk.weatherapp.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -109,6 +110,8 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
                         SharedPrefs.getPrefs(getContext()).edit().putString("prediction" + i / 8, text).apply();
                     }
 
+                    loadWeatherIcon(threeHourForecast.getList().get(i).getWeatherArray().get(0).getDescription(), days[i / 8]);
+
                     // Set text for prediction.
                     days[i / 8].setText(text);
                 }
@@ -151,6 +154,32 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("CityName") || key.equals("Unit"))
             loadWeather();
+    }
 
+    private void loadWeatherIcon(String weatherText, TextView weather) {
+        if (weather != null) {
+            int iconId = -1;
+            if (weatherText.contains("rain")) {
+                iconId = R.mipmap.rainy;
+            } else if (weatherText.contains("cloud")) {
+                iconId = R.mipmap.clouds;
+            } else if (weatherText.contains("snow")) {
+                iconId = R.mipmap.snow;
+            } else {
+                weather.setCompoundDrawables(null, null, null, null);
+            }
+            if (iconId != -1) {
+                Drawable drawable = getResources().getDrawable(iconId);
+                int size = (int) weather.getTextSize() * 2;
+                drawable.setBounds(
+                        0,
+                        0,
+                        size,
+                        size
+                );
+                weather.setCompoundDrawables(drawable, null, null, null);
+                weather.setCompoundDrawablePadding(2);
+            }
+        }
     }
 }

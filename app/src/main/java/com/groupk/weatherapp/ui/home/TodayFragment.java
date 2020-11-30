@@ -2,6 +2,7 @@ package com.groupk.weatherapp.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
         weather.setText(SharedPrefs.getPrefs(context).getString("weather", "Snow"));
         temperature.setText(SharedPrefs.getPrefs(context).getString("temperature", "-23 \u00B0C"));
         wind.setText(SharedPrefs.getPrefs(context).getString("wind", "20 KM/H"));
+        loadWeatherIcon();
 
         loadWeather();
     }
@@ -95,6 +97,7 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
                 if (getContext() != null) {
                     // Store in shared prefs for cache.
                     SharedPrefs.getPrefs(getContext()).edit().putString("weather", weatherText).apply();
+                    loadWeatherIcon();
                     SharedPrefs.getPrefs(getContext()).edit().putString("temperature", temperatureText).apply();
                     SharedPrefs.getPrefs(getContext()).edit().putString("wind", windText).apply();
                 }
@@ -112,6 +115,34 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("CityName") || key.equals("Unit"))
             loadWeather();
+    }
+
+    private void loadWeatherIcon() {
+        if (weather != null) {
+            String weatherText = weather.getText().toString().toLowerCase();
+            int iconId = -1;
+            if (weatherText.contains("rain")) {
+                iconId = R.mipmap.rainy;
+            } else if (weatherText.contains("cloud")) {
+                iconId = R.mipmap.clouds;
+            } else if (weatherText.contains("snow")) {
+                iconId = R.mipmap.snow;
+            } else {
+                weather.setCompoundDrawables(null, null, null, null);
+            }
+            if (iconId != -1) {
+                Drawable drawable = getResources().getDrawable(iconId);
+                int size = (int) weather.getTextSize() * 2;
+                drawable.setBounds(
+                        0,
+                        0,
+                        size,
+                        size
+                );
+                weather.setCompoundDrawables(drawable, null, null, null);
+                weather.setCompoundDrawablePadding(2);
+            }
+        }
     }
 
 }
