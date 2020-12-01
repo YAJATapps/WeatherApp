@@ -160,28 +160,29 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
         if (getContext() == null)
             return;
         if (weather != null && weatherText != null) {
-            int iconId = -1;
+            int iconId;
             if (weatherText.contains("rain")) {
                 iconId = R.mipmap.rainy;
             } else if (weatherText.contains("cloud")) {
                 iconId = R.mipmap.clouds;
             } else if (weatherText.contains("snow")) {
                 iconId = R.mipmap.snow;
+            } else if (weatherText.contains("mist") || weatherText.contains("fog")) {
+                iconId = R.mipmap.fog;
             } else {
-                weather.setCompoundDrawables(null, null, null, null);
+                iconId = R.mipmap.sun;
             }
-            if (iconId != -1) {
-                Drawable drawable = getResources().getDrawable(iconId);
-                int size = (int) weather.getTextSize() * 2;
-                drawable.setBounds(
-                        0,
-                        0,
-                        size,
-                        size
-                );
-                weather.setCompoundDrawables(drawable, null, null, null);
-                weather.setCompoundDrawablePadding(2);
-            }
+
+            Drawable drawable = getResources().getDrawable(iconId);
+            int size = (int) weather.getTextSize() * 2;
+            drawable.setBounds(
+                    0,
+                    0,
+                    size,
+                    size
+            );
+            weather.setCompoundDrawables(drawable, null, null, null);
+            weather.setCompoundDrawablePadding(2);
         }
     }
 }
