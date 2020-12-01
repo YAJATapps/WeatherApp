@@ -145,7 +145,8 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
                     size
             );
             weather.setCompoundDrawables(drawable, null, null, null);
-            weather.setCompoundDrawablePadding(2);
+            int scale = (int) getContext().getResources().getDisplayMetrics().density;
+            weather.setCompoundDrawablePadding(12 * scale);
         }
     }
 
