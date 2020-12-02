@@ -33,7 +33,7 @@ public class AlertsFragment extends Fragment {
 
         new Thread(() -> {
             String cityName = SharedPrefs.getPrefs(getContext()).getString("CityName", "Kamloops");
-            String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey.getKEY() + "&units =metric";
+            String urlString = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey.getWeatherKey() + "&units =metric";
             try {
                 StringBuilder result = new StringBuilder();
                 URL url = new URL(urlString);

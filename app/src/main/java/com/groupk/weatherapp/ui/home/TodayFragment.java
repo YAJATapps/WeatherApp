@@ -69,7 +69,7 @@ public class TodayFragment extends Fragment implements SharedPreferences.OnShare
         // Get unit
         String unit = SharedPrefs.getPrefs(getContext()).getString("Unit", "C");
 
-        OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getKEY());
+        OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getWeatherKey());
         // Convert temperature value
         switch (unit) {
             case "C":

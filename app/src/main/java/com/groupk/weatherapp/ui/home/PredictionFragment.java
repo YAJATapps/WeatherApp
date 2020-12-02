@@ -76,7 +76,7 @@ public class PredictionFragment extends Fragment implements SharedPreferences.On
         // Get unit
         String unit = SharedPrefs.getPrefs(getContext()).getString("Unit", "C");
 
-        OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getKEY());
+        OpenWeatherMapHelper helper = new OpenWeatherMapHelper(APIKey.getWeatherKey());
 
         //convert temperature value
         switch (unit) {
